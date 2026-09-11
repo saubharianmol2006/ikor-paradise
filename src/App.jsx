@@ -18,6 +18,7 @@ import entranceImage from "./assets/images/entrance.jpg";
 import exteriorSideImage from "./assets/images/exterior-side.jpg";
 import bathroomImage from "./assets/images/bathroom.jpg";
 import officialPoster from "./assets/images/official-poster.jpg";
+import receptionImage from "./assets/images/reception.jpg";
 
 import ScrollToTop from "./ScrollToTop";
 
@@ -118,11 +119,9 @@ function Home() {
             </p>
 
             <Link to="/booking">
-
               <button className="read-more-btn">
                 DISCOVER MORE
               </button>
-
             </Link>
 
           </div>
@@ -131,7 +130,7 @@ function Home() {
           <div className="about-card">
 
             <img
-              src="/src/assets/images/reception.jpg"
+              src={receptionImage}
               alt="IKOR Paradise Reception"
             />
 
@@ -387,6 +386,7 @@ function Home() {
 
           <div className="contact-container">
 
+
             <div className="contact-card">
 
               <div className="contact-icon">
@@ -501,37 +501,39 @@ function Home() {
 
 
             <form
-  className="contact-form"
-  onSubmit={(e) => {
-    e.preventDefault();
+              className="contact-form"
+              onSubmit={(e) => {
 
-    const form = e.target;
+                e.preventDefault();
 
-    const name = form.querySelector(
-      'input[type="text"]'
-    ).value;
+                const form = e.target;
 
-    const messageBox = document.createElement("div");
+                const name = form.querySelector(
+                  'input[type="text"]'
+                ).value;
 
-    messageBox.className = "enquiry-success";
+                const messageBox = document.createElement("div");
 
-    messageBox.innerHTML = `
-      <strong>Thank You, ${name}!</strong>
-      <span>
-        Your enquiry has been received successfully.
-        Our team will contact you shortly.
-      </span>
-    `;
+                messageBox.className = "enquiry-success";
 
-    form.appendChild(messageBox);
+                messageBox.innerHTML = `
+                  <strong>Thank You, ${name}!</strong>
+                  <span>
+                    Your enquiry has been received successfully.
+                    Our team will contact you shortly.
+                  </span>
+                `;
 
-    form.reset();
+                form.appendChild(messageBox);
 
-    setTimeout(() => {
-      messageBox.remove();
-    }, 6000);
-  }}
->
+                form.reset();
+
+                setTimeout(() => {
+                  messageBox.remove();
+                }, 6000);
+
+              }}
+            >
 
               <div className="form-row">
 
@@ -544,6 +546,7 @@ function Home() {
                   <input
                     type="text"
                     placeholder="Enter your name"
+                    required
                   />
 
                 </div>
@@ -558,6 +561,7 @@ function Home() {
                   <input
                     type="tel"
                     placeholder="Enter phone number"
+                    required
                   />
 
                 </div>
@@ -777,6 +781,7 @@ function Home() {
 ========================================================= */
 
 function App() {
+
   return (
     <BrowserRouter>
 
@@ -799,5 +804,6 @@ function App() {
     </BrowserRouter>
   );
 }
+
 
 export default App;
