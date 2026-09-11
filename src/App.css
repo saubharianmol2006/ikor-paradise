@@ -1,0 +1,1168 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #fffaf2;
+  color: #2d2117;
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ================= HERO ================= */
+
+.home-section {
+  min-height: 760px;
+
+  background-image:
+    linear-gradient(
+      rgba(20, 14, 9, 0.48),
+      rgba(20, 14, 9, 0.60)
+    ),
+    url("./assets/images/hero-exterior.jpg");
+
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  position: relative;
+
+  padding: 90px 6% 0;
+
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  overflow: visible;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+
+  text-align: center;
+  width: 100%;
+  padding-top: 20px;
+}
+
+.welcome-text {
+  color: #e5b85c;
+  letter-spacing: 8px;
+  font-size: 15px;
+  margin: 0 0 25px;
+  font-weight: bold;
+}
+
+.hero-content h1 {
+  font-family: Georgia, serif;
+  font-size: 95px;
+  letter-spacing: 15px;
+  margin: 0;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.hero-content h2 {
+  font-family: Georgia, serif;
+  color: #e2b65b;
+  font-size: 48px;
+  letter-spacing: 14px;
+  margin: 12px 0 25px;
+  font-weight: 500;
+}
+
+.hotel-text {
+  font-size: 18px;
+  letter-spacing: 5px;
+  margin: 10px 0 22px;
+}
+
+.tagline {
+  font-family: Georgia, serif;
+  font-size: 22px;
+  font-style: italic;
+  color: #e7c77d;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 35px;
+}
+
+.hero-buttons button,
+.read-more-btn,
+.availability-btn {
+  border: none;
+  background: #c5943c;
+  color: white;
+  padding: 16px 30px;
+  font-weight: bold;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+
+.hero-buttons button:hover,
+.read-more-btn:hover,
+.availability-btn:hover {
+  background: #e0b45c;
+  transform: translateY(-2px);
+}
+
+.outline-btn {
+  background: transparent !important;
+  border: 1px solid white !important;
+}
+
+/* ================= BOOKING ================= */
+
+.booking-box {
+  position: absolute;
+  bottom: -55px;
+
+  width: 88%;
+
+  background: white;
+
+  padding: 28px;
+
+  display: flex;
+  align-items: flex-end;
+
+  gap: 18px;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+
+  z-index: 5;
+}
+
+.booking-field {
+  flex: 1;
+}
+
+.booking-field label {
+  display: block;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #956b2d;
+  margin-bottom: 10px;
+}
+
+.booking-field input,
+.booking-field select {
+  width: 100%;
+  height: 50px;
+
+  padding: 0 12px;
+
+  border: 1px solid #ddd;
+
+  background: white;
+
+  color: #333;
+
+  font-size: 14px;
+}
+
+.availability-btn {
+  height: 50px;
+  white-space: nowrap;
+}
+
+/* ================= ABOUT ================= */
+
+.about-section {
+  padding: 150px 8% 100px;
+
+  display: flex;
+
+  gap: 80px;
+
+  align-items: center;
+
+  background: #fffaf2;
+}
+
+.about-content {
+  flex: 1;
+}
+
+.section-small-title {
+  color: #b48636;
+
+  font-size: 13px;
+
+  letter-spacing: 4px;
+
+  font-weight: bold;
+
+  margin-bottom: 20px;
+}
+
+.about-content h2,
+.services-section h2,
+.gallery-heading h2 {
+  font-family: Georgia, serif;
+
+  font-size: 48px;
+
+  line-height: 1.15;
+
+  font-weight: 500;
+
+  color: #3b2818;
+
+  margin: 0 0 30px;
+}
+
+.about-text {
+  color: #66594e;
+
+  line-height: 1.8;
+
+  font-size: 16px;
+
+  max-width: 650px;
+
+  margin-bottom: 18px;
+}
+
+.read-more-btn {
+  margin-top: 15px;
+}
+
+/* ================= ABOUT IMAGE ================= */
+
+.about-card {
+  flex: 0 0 480px;
+
+  height: 500px;
+
+  position: relative;
+
+  background: #4b321d;
+
+  padding: 0;
+
+  box-shadow: 15px 15px 0 #ead9b7;
+
+  overflow: hidden;
+}
+
+.about-card img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  object-position: center;
+
+  transition: 0.5s ease;
+}
+
+.about-card:hover img {
+  transform: scale(1.04);
+}
+
+.about-card-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background: linear-gradient(
+    transparent 45%,
+    rgba(35, 22, 12, 0.85)
+  );
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  padding-bottom: 45px;
+
+  color: white;
+}
+
+.about-card-overlay span {
+  font-family: Georgia, serif;
+
+  font-size: 48px;
+
+  letter-spacing: 10px;
+}
+
+.about-card-overlay strong {
+  font-family: Georgia, serif;
+
+  color: #e7c16c;
+
+  font-size: 23px;
+
+  letter-spacing: 7px;
+}
+
+/* ================= SERVICES ================= */
+
+.services-section {
+  padding: 100px 7%;
+
+  text-align: center;
+
+  background: #f5ecdc;
+}
+
+.services-section h2 {
+  margin-bottom: 50px;
+}
+
+.services-container {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 25px;
+}
+
+.service-card {
+  background: white;
+
+  padding: 40px 25px;
+
+  min-height: 250px;
+
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+
+  transition: 0.3s;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.service-icon {
+  font-size: 42px;
+
+  margin-bottom: 18px;
+}
+
+.service-card h3 {
+  font-family: Georgia, serif;
+
+  color: #5b3b1d;
+
+  font-size: 22px;
+}
+
+.service-card p {
+  color: #75685c;
+
+  line-height: 1.6;
+}
+
+/* ================= GALLERY ================= */
+
+.gallery-section {
+  padding: 110px 7%;
+
+  background: #fffaf2;
+}
+
+.gallery-heading {
+  max-width: 700px;
+
+  margin: 0 auto 55px;
+
+  text-align: center;
+}
+
+.gallery-heading p:last-child {
+  color: #75685c;
+
+  line-height: 1.7;
+}
+
+.gallery-grid {
+  max-width: 1200px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: 1.4fr 1fr 1fr;
+
+  grid-template-rows: 280px 280px;
+
+  gap: 18px;
+}
+
+.gallery-item {
+  position: relative;
+
+  overflow: hidden;
+
+  background: #4b321d;
+}
+
+.gallery-large {
+  grid-row: span 2;
+}
+
+.gallery-item img {
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: 0.5s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.06);
+}
+
+.gallery-caption {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  padding: 20px;
+
+  color: white;
+
+  font-family: Georgia, serif;
+
+  font-size: 20px;
+
+  background: linear-gradient(
+    transparent,
+    rgba(20, 12, 7, 0.85)
+  );
+}
+
+/* ================= CONTACT ================= */
+
+.contact-section {
+  padding: 100px 7%;
+
+  background: #fffaf2;
+
+  text-align: center;
+}
+
+.contact-heading {
+  max-width: 700px;
+
+  margin: 0 auto 55px;
+}
+
+.contact-heading h2 {
+  font-family: Georgia, serif;
+
+  font-size: 48px;
+
+  font-weight: 500;
+
+  color: #3b2818;
+
+  margin: 0 0 20px;
+}
+
+.contact-heading p:last-child {
+  color: #75685c;
+
+  line-height: 1.7;
+
+  font-size: 16px;
+}
+
+.contact-container {
+  max-width: 1100px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 25px;
+}
+
+.contact-card {
+  background: white;
+
+  padding: 40px 25px;
+
+  min-height: 260px;
+
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+}
+
+.contact-icon {
+  font-size: 38px;
+
+  margin-bottom: 15px;
+}
+
+.contact-card h3 {
+  font-family: Georgia, serif;
+
+  font-size: 22px;
+
+  color: #5b3b1d;
+}
+
+.contact-card p {
+  color: #75685c;
+
+  line-height: 1.7;
+
+  font-size: 14px;
+}
+
+.contact-card button {
+  border: none;
+
+  background: #b88935;
+
+  color: white;
+
+  padding: 12px 20px;
+
+  font-size: 11px;
+
+  font-weight: bold;
+
+  letter-spacing: 1px;
+
+  cursor: pointer;
+}
+
+.contact-card button:hover {
+  background: #8f6426;
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+  background: #2e2117;
+
+  color: white;
+
+  padding: 60px 7% 25px;
+}
+
+.footer-content {
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr 1fr;
+
+  gap: 40px;
+
+  align-items: center;
+}
+
+.footer-brand h2 {
+  font-family: Georgia, serif;
+
+  font-size: 42px;
+
+  letter-spacing: 8px;
+
+  color: #e2b65b;
+
+  margin: 0;
+}
+
+.footer-brand h3 {
+  font-family: Georgia, serif;
+
+  font-size: 20px;
+
+  letter-spacing: 7px;
+
+  margin: 5px 0 15px;
+}
+
+.footer-brand p {
+  font-size: 10px;
+
+  letter-spacing: 2px;
+
+  color: #cbbba5;
+}
+
+.footer-links {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.footer-links a {
+  color: #ddd;
+
+  font-size: 14px;
+}
+
+.footer-links a:hover {
+  color: #e2b65b;
+}
+
+.footer-contact p {
+  color: #ddd;
+
+  font-size: 14px;
+
+  margin: 12px 0;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+
+  margin: 45px auto 0;
+
+  padding-top: 20px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.footer-bottom p {
+  color: #a99b8b;
+
+  font-size: 12px;
+
+  margin: 0;
+}
+
+/* ================= TABLET ================= */
+
+@media (max-width: 900px) {
+
+  .booking-box {
+    width: 94%;
+
+    flex-wrap: wrap;
+  }
+
+  .booking-field {
+    min-width: 45%;
+  }
+
+  .availability-btn {
+    width: 100%;
+  }
+
+  .about-section {
+    flex-direction: column;
+  }
+
+  .about-card {
+    width: 100%;
+
+    max-width: 500px;
+
+    flex-basis: auto;
+  }
+
+  .services-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-container {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+
+    grid-template-rows: 280px 280px 280px;
+  }
+
+  .gallery-large {
+    grid-row: span 2;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 600px) {
+
+  .home-section {
+    min-height: 850px;
+
+    padding: 60px 20px 0;
+
+    background-position: center center;
+  }
+
+  .hero-content h1 {
+    font-size: 62px;
+
+    letter-spacing: 7px;
+  }
+
+  .hero-content h2 {
+    font-size: 31px;
+
+    letter-spacing: 6px;
+  }
+
+  .hotel-text {
+    font-size: 12px;
+
+    letter-spacing: 2px;
+  }
+
+  .tagline {
+    font-size: 17px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+
+    align-items: center;
+  }
+
+  .hero-buttons button {
+    width: 220px;
+  }
+
+  .booking-box {
+    bottom: -190px;
+
+    width: 90%;
+
+    padding: 20px;
+  }
+
+  .booking-field {
+    min-width: 100%;
+  }
+
+  .about-section {
+    padding: 260px 25px 80px;
+  }
+
+  .about-content h2,
+  .services-section h2,
+  .gallery-heading h2,
+  .contact-heading h2 {
+    font-size: 36px;
+  }
+
+  .about-card {
+    height: 380px;
+  }
+
+  .services-container {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-grid {
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    grid-template-rows: repeat(4, 300px);
+  }
+
+  .gallery-large {
+    grid-row: span 1;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+
+    text-align: center;
+  }
+
+  .footer-links {
+    align-items: center;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+
+    text-align: center;
+
+    align-items: center;
+  }
+}
+
+/* ================================
+   PROFESSIONAL CONTACT FORM
+================================ */
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-card a {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.contact-card button {
+  min-width: 130px;
+}
+
+.whatsapp-btn {
+  background: #8f6426 !important;
+}
+
+.whatsapp-btn:hover {
+  background: #6f4b1d !important;
+}
+
+/* CONTACT FORM */
+
+.contact-form-wrapper {
+  max-width: 1000px;
+
+  margin: 70px auto 0;
+
+  padding: 55px;
+
+  background: white;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+  text-align: left;
+}
+
+.contact-form-heading {
+  text-align: center;
+
+  max-width: 650px;
+
+  margin: 0 auto 40px;
+}
+
+.contact-form-heading h3 {
+  font-family: Georgia, serif;
+
+  font-size: 34px;
+
+  font-weight: 500;
+
+  color: #3b2818;
+
+  margin: 0 0 15px;
+}
+
+.contact-form-heading p:last-child {
+  color: #75685c;
+
+  line-height: 1.7;
+
+  font-size: 14px;
+}
+
+.contact-form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 22px;
+}
+
+.form-row {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 9px;
+}
+
+.form-group label {
+  color: #956b2d;
+
+  font-size: 11px;
+
+  font-weight: bold;
+
+  letter-spacing: 2px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+
+  border: 1px solid #ded6ca;
+
+  background: #fffdf9;
+
+  padding: 14px;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 14px;
+
+  color: #333;
+
+  outline: none;
+
+  transition: 0.3s;
+}
+
+.form-group input,
+.form-group select {
+  height: 50px;
+}
+
+.form-group textarea {
+  resize: vertical;
+
+  min-height: 130px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #b88935;
+
+  box-shadow: 0 0 0 2px rgba(184, 137, 53, 0.08);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #aaa;
+}
+
+.enquiry-submit {
+  align-self: center;
+
+  border: none;
+
+  background: #b88935;
+
+  color: white;
+
+  padding: 16px 35px;
+
+  font-size: 11px;
+
+  font-weight: bold;
+
+  letter-spacing: 1.5px;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.enquiry-submit:hover {
+  background: #8e6325;
+
+  transform: translateY(-2px);
+}
+
+/* ================================
+   CONTACT RESPONSIVE
+================================ */
+
+@media (max-width: 700px) {
+
+  .contact-form-wrapper {
+    padding: 30px 20px;
+
+    margin-top: 50px;
+  }
+
+  .contact-form-heading h3 {
+    font-size: 28px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .enquiry-submit {
+    width: 100%;
+  }
+
+}
+/* =================================================
+   FLOATING CONTACT BUTTONS
+================================================= */
+
+.floating-contact {
+  position: fixed;
+
+  right: 25px;
+  bottom: 25px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+  z-index: 2000;
+}
+
+.floating-contact a {
+  width: 52px;
+  height: 52px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 22px;
+
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.22);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.floating-call {
+  background: #b88935;
+}
+
+.floating-whatsapp {
+  background: #6f9d52;
+}
+
+.floating-contact a:hover {
+  transform: translateY(-4px) scale(1.05);
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.28);
+}
+
+
+/* =================================================
+   MOBILE
+================================================= */
+
+@media (max-width: 600px) {
+
+  .floating-contact {
+    right: 16px;
+    bottom: 18px;
+
+    gap: 10px;
+  }
+
+  .floating-contact a {
+    width: 48px;
+    height: 48px;
+
+    font-size: 20px;
+  }
+
+}
+/* =================================================
+   ENQUIRY SUCCESS MESSAGE
+================================================= */
+
+.enquiry-success {
+  margin-top: 22px;
+  padding: 18px 22px;
+  background: #f5ecdc;
+  border-left: 4px solid #b88935;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: enquirySuccessShow 0.35s ease;
+}
+
+.enquiry-success strong {
+  color: #4b321d;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.enquiry-success span {
+  color: #75685c;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@keyframes enquirySuccessShow {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .enquiry-success {
+    padding: 16px;
+  }
+
+  .enquiry-success strong {
+    font-size: 16px;
+  }
+
+  .enquiry-success span {
+    font-size: 12px;
+  }
+}

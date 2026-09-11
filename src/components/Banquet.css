@@ -1,0 +1,474 @@
+/* ================================
+   BANQUET SECTION
+================================ */
+
+.banquet-section {
+  padding: 110px 7% 90px;
+  background: #f5ecdc;
+}
+
+/* ================================
+   HEADING
+================================ */
+
+.banquet-heading {
+  max-width: 720px;
+  margin: 0 auto 65px;
+  text-align: center;
+}
+
+.banquet-heading h2 {
+  font-family: Georgia, serif;
+  font-size: 50px;
+  font-weight: 500;
+  color: #3b2818;
+  margin: 0 0 20px;
+}
+
+.banquet-heading > p:last-child {
+  color: #75685c;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* ================================
+   MAIN CONTENT
+================================ */
+
+.banquet-main {
+  max-width: 1250px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+
+  gap: 75px;
+
+  align-items: center;
+}
+
+/* ================================
+   IMAGE
+================================ */
+
+.banquet-visual {
+  position: relative;
+
+  height: 560px;
+
+  overflow: hidden;
+
+  background: #3b2818;
+
+  padding: 0;
+
+  box-shadow: 15px 15px 0 #dfc99f;
+}
+
+.banquet-visual img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  object-position: center;
+
+  transition: transform 0.6s ease;
+}
+
+.banquet-visual:hover img {
+  transform: scale(1.04);
+}
+
+/* DARK OVERLAY */
+
+.banquet-visual::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: linear-gradient(
+    to top,
+    rgba(35, 22, 12, 0.78),
+    rgba(35, 22, 12, 0.08)
+  );
+
+  pointer-events: none;
+}
+
+/* ================================
+   IMAGE TEXT
+================================ */
+
+.banquet-overlay {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 45px;
+
+  z-index: 2;
+
+  text-align: center;
+
+  color: white;
+}
+
+.banquet-overlay span {
+  display: block;
+
+  font-family: Georgia, serif;
+
+  font-size: 58px;
+
+  letter-spacing: 12px;
+
+  line-height: 1;
+}
+
+.banquet-overlay strong {
+  display: block;
+
+  font-family: Georgia, serif;
+
+  font-size: 27px;
+
+  letter-spacing: 8px;
+
+  color: #e4b961;
+
+  margin-top: 7px;
+}
+
+.banquet-overlay p {
+  font-size: 11px;
+
+  letter-spacing: 4px;
+
+  margin: 20px 0 0;
+
+  color: #ffffff;
+}
+
+/* ================================
+   INFORMATION
+================================ */
+
+.banquet-info {
+  padding-right: 20px;
+}
+
+.banquet-small-title {
+  color: #b48636;
+
+  font-size: 13px;
+
+  letter-spacing: 4px;
+
+  font-weight: bold;
+
+  margin-bottom: 20px;
+}
+
+.banquet-info h3 {
+  font-family: Georgia, serif;
+
+  font-size: 43px;
+
+  line-height: 1.2;
+
+  font-weight: 500;
+
+  color: #3b2818;
+
+  margin: 0 0 25px;
+}
+
+.banquet-description {
+  color: #75685c;
+
+  font-size: 15px;
+
+  line-height: 1.8;
+
+  margin-bottom: 18px;
+}
+
+/* ================================
+   FACILITIES
+================================ */
+
+.banquet-facilities {
+  margin-top: 30px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.banquet-facility {
+  display: flex;
+
+  gap: 18px;
+
+  align-items: flex-start;
+
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid #dfcfb2;
+}
+
+.facility-icon {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  background: white;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.banquet-facility h4 {
+  font-family: Georgia, serif;
+
+  color: #4b321d;
+
+  font-size: 19px;
+
+  font-weight: 500;
+
+  margin: 0 0 5px;
+}
+
+.banquet-facility p {
+  color: #75685c;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  margin: 0;
+}
+
+/* ================================
+   BUTTON
+================================ */
+
+.banquet-btn {
+  margin-top: 30px;
+
+  border: none;
+
+  background: #b88935;
+
+  color: white;
+
+  padding: 15px 28px;
+
+  font-size: 11px;
+
+  font-weight: bold;
+
+  letter-spacing: 1px;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.banquet-btn:hover {
+  background: #8e6325;
+
+  transform: translateY(-2px);
+}
+
+/* ================================
+   HIGHLIGHTS
+================================ */
+
+.banquet-highlights {
+  max-width: 1100px;
+
+  margin: 80px auto 0;
+
+  padding: 35px 20px;
+
+  background: white;
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+}
+
+.highlight-item {
+  text-align: center;
+
+  padding: 0 20px;
+
+  border-right: 1px solid #e3d7c4;
+}
+
+.highlight-item:last-child {
+  border-right: none;
+}
+
+.highlight-item strong {
+  display: block;
+
+  font-family: Georgia, serif;
+
+  font-size: 22px;
+
+  color: #4b321d;
+
+  font-weight: 500;
+
+  margin-bottom: 6px;
+}
+
+.highlight-item span {
+  color: #a7792e;
+
+  font-size: 11px;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 900px) {
+
+  .banquet-main {
+    grid-template-columns: 1fr;
+
+    gap: 55px;
+  }
+
+  .banquet-visual {
+    max-width: 600px;
+
+    width: 100%;
+
+    margin: 0 auto;
+
+    height: 500px;
+  }
+
+  .banquet-info {
+    padding-right: 0;
+  }
+
+  .banquet-highlights {
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 25px;
+  }
+
+  .highlight-item:nth-child(2) {
+    border-right: none;
+  }
+
+  .highlight-item:nth-child(1),
+  .highlight-item:nth-child(2) {
+    padding-bottom: 25px;
+
+    border-bottom: 1px solid #e3d7c4;
+  }
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+  .banquet-section {
+    padding: 80px 20px;
+  }
+
+  .banquet-heading h2 {
+    font-size: 38px;
+  }
+
+  .banquet-heading > p:last-child {
+    font-size: 14px;
+  }
+
+  .banquet-visual {
+    height: 400px;
+
+    box-shadow: 8px 8px 0 #dfc99f;
+  }
+
+  .banquet-overlay {
+    bottom: 30px;
+  }
+
+  .banquet-overlay span {
+    font-size: 43px;
+
+    letter-spacing: 7px;
+  }
+
+  .banquet-overlay strong {
+    font-size: 21px;
+
+    letter-spacing: 5px;
+  }
+
+  .banquet-overlay p {
+    font-size: 9px;
+
+    letter-spacing: 3px;
+  }
+
+  .banquet-info h3 {
+    font-size: 34px;
+  }
+
+  .banquet-description {
+    font-size: 14px;
+  }
+
+  .banquet-highlights {
+    grid-template-columns: 1fr;
+
+    gap: 0;
+
+    padding: 10px 20px;
+  }
+
+  .highlight-item,
+  .highlight-item:nth-child(1),
+  .highlight-item:nth-child(2) {
+    border-right: none;
+
+    border-bottom: 1px solid #e3d7c4;
+
+    padding: 20px;
+  }
+
+  .highlight-item:last-child {
+    border-bottom: none;
+  }
+}

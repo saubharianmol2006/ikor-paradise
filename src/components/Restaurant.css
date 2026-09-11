@@ -1,0 +1,584 @@
+/* =========================================================
+   RESTAURANT SECTION
+========================================================= */
+
+.restaurant-section {
+  padding: 110px 7%;
+  background: #ffffff;
+}
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.restaurant-heading {
+  max-width: 700px;
+  margin: 0 auto 60px;
+  text-align: center;
+}
+
+.restaurant-heading h2 {
+  font-family: Georgia, serif;
+  color: #3b2818;
+  font-size: 50px;
+  font-weight: 500;
+  margin: 0 0 20px;
+}
+
+.restaurant-heading > p:last-child {
+  color: #75685c;
+  font-size: 16px;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.restaurant-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.restaurant-intro {
+  position: sticky;
+  top: 100px;
+}
+
+.restaurant-image-box {
+  position: relative;
+  height: 620px;
+  overflow: hidden;
+  box-shadow: 15px 15px 0 #ead9b7;
+}
+
+.restaurant-image-box img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.restaurant-image-box:hover img {
+  transform: scale(1.05);
+}
+
+.restaurant-image-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 45px 20px;
+  text-align: center;
+  background: linear-gradient(
+    to top,
+    rgba(35, 22, 12, 0.82),
+    rgba(35, 22, 12, 0.05) 65%
+  );
+}
+
+.restaurant-image-overlay span {
+  color: #e3b85e;
+  font-family: Georgia, serif;
+  font-size: 26px;
+  letter-spacing: 7px;
+}
+
+.restaurant-image-overlay strong {
+  color: white;
+  font-family: Georgia, serif;
+  font-size: 38px;
+  font-weight: 500;
+  letter-spacing: 5px;
+  margin-top: 5px;
+}
+
+.restaurant-image-overlay p {
+  color: #eee3d4;
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin: 12px 0 0;
+}
+
+/* =========================================================
+   MENU
+========================================================= */
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+}
+
+.menu-category {
+  border-bottom: 1px solid #eadfce;
+  padding-bottom: 28px;
+}
+
+.menu-category:last-child {
+  border-bottom: none;
+}
+
+.menu-category h3 {
+  color: #a7792e;
+  font-size: 12px;
+  letter-spacing: 3px;
+  margin: 0 0 22px;
+  font-weight: bold;
+}
+
+.menu-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 17px 0;
+  border-bottom: 1px dashed #e7ddd0;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item-info {
+  flex: 1;
+}
+
+.menu-item-info h4 {
+  color: #4b321d;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 0 7px;
+}
+
+.menu-item-info p {
+  color: #85796d;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.menu-price {
+  color: #b27c28;
+  font-size: 17px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   BOTTOM
+========================================================= */
+
+.restaurant-bottom {
+  max-width: 1200px;
+  margin: 60px auto 0;
+  padding-top: 35px;
+  border-top: 1px solid #eadfce;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.restaurant-bottom p {
+  color: #75685c;
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.restaurant-bottom button {
+  flex-shrink: 0;
+  border: none;
+  background: #b88935;
+  color: white;
+  padding: 15px 25px;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1.2px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.restaurant-bottom button:hover {
+  background: #8e6325;
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   MENU MODAL OVERLAY
+========================================================= */
+
+.menu-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  background: rgba(25, 17, 10, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  animation: menuOverlayShow 0.25s ease;
+}
+
+@keyframes menuOverlayShow {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   MENU MODAL
+========================================================= */
+
+.menu-modal {
+  width: 100%;
+  max-width: 850px;
+  max-height: 90vh;
+  background: #fffaf2;
+  overflow-y: auto;
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.35);
+  animation: menuModalShow 0.3s ease;
+}
+
+@keyframes menuModalShow {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+
+.menu-modal-header {
+  position: relative;
+  padding: 38px 45px 30px;
+  background: #3b2818;
+  color: white;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.menu-modal-header .section-small-title {
+  color: #e3b85e;
+  margin-bottom: 12px;
+}
+
+.menu-modal-header h2 {
+  font-family: Georgia, serif;
+  font-size: 38px;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+.menu-modal-header > div > p:last-child {
+  color: #d6c8b8;
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.menu-close-btn {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.menu-close-btn:hover {
+  background: #b88935;
+  border-color: #b88935;
+  transform: rotate(90deg);
+}
+
+/* =========================================================
+   MODAL CONTENT
+========================================================= */
+
+.menu-modal-content {
+  padding: 35px 45px;
+}
+
+.modal-menu-category {
+  margin-bottom: 38px;
+}
+
+.modal-menu-category:last-child {
+  margin-bottom: 0;
+}
+
+.modal-menu-category > h3 {
+  color: #a7792e;
+  font-size: 12px;
+  letter-spacing: 3px;
+  margin: 0 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #dfd1bf;
+}
+
+.modal-menu-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 17px 0;
+  border-bottom: 1px dashed #e0d6ca;
+}
+
+.modal-menu-item:last-child {
+  border-bottom: none;
+}
+
+.modal-menu-item h4 {
+  color: #4b321d;
+  font-family: Georgia, serif;
+  font-size: 19px;
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+
+.modal-menu-item p {
+  color: #81756a;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.modal-menu-item strong {
+  color: #b27c28;
+  font-size: 17px;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   MODAL FOOTER
+========================================================= */
+
+.menu-modal-footer {
+  padding: 25px 45px;
+  background: #f0e5d4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.menu-modal-footer p {
+  color: #6f6255;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.menu-modal-footer a {
+  flex-shrink: 0;
+  color: #8e6325;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.menu-modal-footer a:hover {
+  color: #b88935;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 950px) {
+  .restaurant-section {
+    padding: 90px 5%;
+  }
+
+  .restaurant-content {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .restaurant-intro {
+    position: static;
+  }
+
+  .restaurant-image-box {
+    height: 450px;
+  }
+
+  .menu-container {
+    gap: 25px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+  .restaurant-section {
+    padding: 75px 20px;
+  }
+
+  .restaurant-heading {
+    margin-bottom: 40px;
+  }
+
+  .restaurant-heading h2 {
+    font-size: 38px;
+  }
+
+  .restaurant-heading > p:last-child {
+    font-size: 14px;
+  }
+
+  .restaurant-image-box {
+    height: 400px;
+    box-shadow: 8px 8px 0 #ead9b7;
+  }
+
+  .restaurant-image-overlay {
+    padding: 30px 15px;
+  }
+
+  .restaurant-image-overlay span {
+    font-size: 21px;
+  }
+
+  .restaurant-image-overlay strong {
+    font-size: 30px;
+  }
+
+  .menu-item {
+    gap: 15px;
+  }
+
+  .menu-item-info h4 {
+    font-size: 18px;
+  }
+
+  .menu-item-info p {
+    font-size: 12px;
+  }
+
+  .menu-price {
+    font-size: 15px;
+  }
+
+  .restaurant-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .restaurant-bottom button {
+    width: 100%;
+  }
+
+  /* MODAL */
+
+  .menu-modal-overlay {
+    padding: 12px;
+  }
+
+  .menu-modal {
+    max-height: 94vh;
+  }
+
+  .menu-modal-header {
+    padding: 28px 22px 25px;
+  }
+
+  .menu-modal-header h2 {
+    font-size: 30px;
+  }
+
+  .menu-close-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .menu-modal-content {
+    padding: 25px 22px;
+  }
+
+  .modal-menu-item {
+    gap: 15px;
+  }
+
+  .modal-menu-item h4 {
+    font-size: 17px;
+  }
+
+  .modal-menu-item p {
+    font-size: 12px;
+  }
+
+  .modal-menu-footer {
+    padding: 22px;
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+  .restaurant-image-box {
+    height: 340px;
+  }
+
+  .restaurant-image-overlay strong {
+    font-size: 26px;
+  }
+
+  .menu-modal-header h2 {
+    font-size: 26px;
+  }
+
+  .modal-menu-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .modal-menu-item strong {
+    font-size: 15px;
+  }
+}
