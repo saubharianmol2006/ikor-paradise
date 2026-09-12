@@ -16,10 +16,11 @@ import "./App.css";
 
 import entranceImage from "./assets/images/entrance.jpg";
 import exteriorSideImage from "./assets/images/exterior-side.jpg";
-import bathroomImage from "./assets/images/bathroom.jpg";
 import officialPoster from "./assets/images/official-poster.jpg";
 import receptionImage from "./assets/images/reception.jpg";
-
+import deluxe1Image from "./assets/images/deluxe-1.jpg";
+import executive1Image from "./assets/images/executive-1.jpg";
+import bathroomRealImage from "./assets/images/bathroom-real.jpg";
 import ScrollToTop from "./ScrollToTop";
 
 
@@ -269,92 +270,188 @@ function Home() {
 
 
         {/* =====================================================
-            GALLERY
-        ===================================================== */}
+    GALLERY
+===================================================== */}
 
-        <section
-          id="gallery"
-          className="gallery-section"
-        >
+<section
+  id="gallery"
+  className="gallery-section"
+>
+  <div className="gallery-heading">
 
-          <div className="gallery-heading">
+    <p className="section-small-title">
+      EXPERIENCE IKOR PARADISE
+    </p>
 
-            <p className="section-small-title">
-              EXPERIENCE IKOR PARADISE
-            </p>
+    <h2>
+      Our Gallery
+    </h2>
 
-            <h2>
-              Our Gallery
-            </h2>
+    <p>
+      Explore the ambience, comfort and beautiful
+      spaces of IKOR Paradise.
+    </p>
 
-            <p>
-              Explore the ambience, comfort and beautiful
-              spaces of IKOR Paradise.
-            </p>
-
-          </div>
-
-
-          <div className="gallery-grid">
-
-            <div className="gallery-item gallery-large">
-
-              <img
-                src={entranceImage}
-                alt="IKOR Paradise Entrance"
-              />
-
-              <div className="gallery-caption">
-                Hotel Entrance
-              </div>
-
-            </div>
+  </div>
 
 
-            <div className="gallery-item">
+  <div className="gallery-grid">
 
-              <img
-                src={exteriorSideImage}
-                alt="IKOR Paradise Exterior"
-              />
+    {/* HOTEL ENTRANCE */}
 
-              <div className="gallery-caption">
-                Hotel Exterior
-              </div>
+    <div className="gallery-item gallery-large">
 
-            </div>
+      <img
+        src={entranceImage}
+        alt="IKOR Paradise Entrance"
+      />
 
+      <div className="gallery-caption">
+        Hotel Entrance
+      </div>
 
-            <div className="gallery-item">
-
-              <img
-                src={bathroomImage}
-                alt="IKOR Paradise Bathroom"
-              />
-
-              <div className="gallery-caption">
-                Premium Bathroom
-              </div>
-
-            </div>
+    </div>
 
 
-            <div className="gallery-item">
+    {/* HOTEL EXTERIOR */}
 
-              <img
-                src={officialPoster}
-                alt="IKOR Paradise"
-              />
+    <div className="gallery-item">
 
-              <div className="gallery-caption">
-                IKOR Paradise
-              </div>
+      <img
+        src={exteriorSideImage}
+        alt="IKOR Paradise Exterior"
+      />
 
-            </div>
+      <div className="gallery-caption">
+        Hotel Exterior
+      </div>
 
-          </div>
+    </div>
 
-        </section>
+
+    {/* HOTEL RECEPTION */}
+
+    <div className="gallery-item">
+
+      <img
+        src={receptionImage}
+        alt="IKOR Paradise Reception"
+      />
+
+      <div className="gallery-caption">
+        Hotel Reception
+      </div>
+
+    </div>
+
+
+    {/* DELUXE ROOM - ONLY ONE PHOTO */}
+
+    <div className="gallery-item">
+
+      <img
+        src={deluxe1Image}
+        alt="IKOR Paradise Deluxe Room"
+      />
+
+      <div className="gallery-caption">
+        Deluxe Room
+      </div>
+
+    </div>
+
+
+    {/* EXECUTIVE ROOM - ONLY ONE PHOTO */}
+
+    <div className="gallery-item">
+
+      <img
+        src={executive1Image}
+        alt="IKOR Paradise Executive Room"
+      />
+
+      <div className="gallery-caption">
+        Executive Room
+      </div>
+
+    </div>
+
+
+    {/* BATHROOM - ACTUAL PHOTO */}
+
+    <div className="gallery-item">
+
+      <img
+        src={bathroomRealImage}
+        alt="IKOR Paradise Bathroom"
+      />
+
+      <div className="gallery-caption">
+        Premium Bathroom
+      </div>
+
+    </div>
+
+
+    {/* RESTAURANT */}
+
+    <div className="gallery-item">
+
+      <img
+        src="/src/assets/images/restaurant-interior.jpg"
+        alt="IKOR Paradise Restaurant"
+      />
+
+      <div className="gallery-caption">
+        Restaurant
+      </div>
+
+    </div>
+
+
+    {/* BANQUET HALL */}
+
+    <div className="gallery-item">
+
+      <img
+        src="/src/assets/images/banquet-hall.jpg"
+        alt="IKOR Paradise Banquet Hall"
+      />
+
+      <div className="gallery-caption">
+        Banquet Hall
+      </div>
+
+    </div>
+
+
+    {/* IKOR PARADISE POSTER */}
+
+    <div className="gallery-item">
+
+      <img
+        src={officialPoster}
+        alt="IKOR Paradise"
+      />
+
+      <div className="gallery-caption">
+        IKOR Paradise
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+      
+
+
+           
+           
+
+
+       
 
 
         {/* =====================================================

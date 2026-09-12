@@ -1,10 +1,7 @@
-import { useState } from "react";
 import "./Restaurant.css";
 import restaurantImage from "../assets/images/restaurant-interior.jpg";
 
 function Restaurant() {
-  const [showMenu, setShowMenu] = useState(false);
-
   const menuItems = [
     {
       category: "STARTERS",
@@ -13,7 +10,7 @@ function Restaurant() {
           name: "Paneer Tikka",
           description:
             "Soft paneer cubes marinated with aromatic spices and grilled to perfection.",
-          price: "₹280",
+          price: "₹300",
         },
         {
           name: "Veg Spring Roll",
@@ -29,6 +26,7 @@ function Restaurant() {
         },
       ],
     },
+
     {
       category: "MAIN COURSE",
       items: [
@@ -36,13 +34,13 @@ function Restaurant() {
           name: "Paneer Butter Masala",
           description:
             "Rich and creamy tomato gravy with soft paneer and aromatic spices.",
-          price: "₹320",
+          price: "₹310",
         },
         {
           name: "Dal Makhani",
           description:
             "Slow-cooked black lentils finished with butter and cream.",
-          price: "₹260",
+          price: "₹229",
         },
         {
           name: "Chicken Curry",
@@ -52,6 +50,7 @@ function Restaurant() {
         },
       ],
     },
+
     {
       category: "RICE & BREAD",
       items: [
@@ -59,7 +58,7 @@ function Restaurant() {
           name: "Veg Biryani",
           description:
             "Fragrant basmati rice cooked with vegetables and traditional spices.",
-          price: "₹280",
+          price: "₹250",
         },
         {
           name: "Chicken Biryani",
@@ -71,14 +70,17 @@ function Restaurant() {
           name: "Butter Naan",
           description:
             "Soft tandoori naan finished with a touch of butter.",
-          price: "₹60",
+          price: "₹90",
         },
       ],
     },
   ];
 
   return (
-    <section id="restaurant" className="restaurant-section">
+    <section
+      id="restaurant"
+      className="restaurant-section"
+    >
 
       {/* ================= HEADING ================= */}
 
@@ -200,131 +202,37 @@ function Restaurant() {
           at IKOR Paradise Restaurant.
         </p>
 
-        <button
-          type="button"
-          onClick={() => setShowMenu(true)}
+
+        {/* ================= FULL MENU PDF ================= */}
+
+        <a
+          href="/Menu%20Ikor%20Paradise.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="restaurant-menu-link"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "15px 32px",
+            background: "#b88935",
+            color: "#ffffff",
+            textDecoration: "none",
+            fontSize: "12px",
+            fontWeight: "700",
+            letterSpacing: "1.8px",
+            border: "1px solid #b88935",
+            borderRadius: "2px",
+            boxShadow:
+              "0 6px 18px rgba(0, 0, 0, 0.12)",
+            transition: "all 0.3s ease",
+            cursor: "pointer",
+          }}
         >
           VIEW FULL MENU
-        </button>
+        </a>
 
       </div>
-
-
-      {/* ================= FULL MENU MODAL ================= */}
-
-      {showMenu && (
-
-        <div
-          className="menu-modal-overlay"
-          onClick={() => setShowMenu(false)}
-        >
-
-          <div
-            className="menu-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-
-            {/* HEADER */}
-
-            <div className="menu-modal-header">
-
-              <div>
-
-                <p className="section-small-title">
-                  IKOR PARADISE
-                </p>
-
-                <h2>
-                  Restaurant Menu
-                </h2>
-
-                <p>
-                  HOTEL • BANQUET • RESTAURANT
-                </p>
-
-              </div>
-
-              <button
-                type="button"
-                className="menu-close-btn"
-                onClick={() => setShowMenu(false)}
-                aria-label="Close menu"
-              >
-                ✕
-              </button>
-
-            </div>
-
-
-            {/* MENU LIST */}
-
-            <div className="menu-modal-content">
-
-              {menuItems.map((menu, index) => (
-
-                <div
-                  className="modal-menu-category"
-                  key={index}
-                >
-
-                  <h3>
-                    {menu.category}
-                  </h3>
-
-                  {menu.items.map((item, itemIndex) => (
-
-                    <div
-                      className="modal-menu-item"
-                      key={itemIndex}
-                    >
-
-                      <div>
-
-                        <h4>
-                          {item.name}
-                        </h4>
-
-                        <p>
-                          {item.description}
-                        </p>
-
-                      </div>
-
-                      <strong>
-                        {item.price}
-                      </strong>
-
-                    </div>
-
-                  ))}
-
-                </div>
-
-              ))}
-
-            </div>
-
-
-            {/* FOOTER */}
-
-            <div className="menu-modal-footer">
-
-              <p>
-                For today's menu, special requests or table
-                enquiries, please contact us.
-              </p>
-
-              <a href="tel:+918859012000">
-                📞 +91-8859012000
-              </a>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      )}
 
     </section>
   );
