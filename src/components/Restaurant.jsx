@@ -205,32 +205,33 @@ function Restaurant() {
 
         {/* ================= FULL MENU PDF ================= */}
 
-        <a
-          href="/Menu%20Ikor%20Paradise.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="restaurant-menu-link"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "15px 32px",
-            background: "#b88935",
-            color: "#ffffff",
-            textDecoration: "none",
-            fontSize: "12px",
-            fontWeight: "700",
-            letterSpacing: "1.8px",
-            border: "1px solid #b88935",
-            borderRadius: "2px",
-            boxShadow:
-              "0 6px 18px rgba(0, 0, 0, 0.12)",
-            transition: "all 0.3s ease",
-            cursor: "pointer",
-          }}
-        >
-          VIEW FULL MENU
-        </a>
+       <button
+  type="button"
+  className="restaurant-menu-link"
+  onClick={() => {
+    window.open("/Menu%20Ikor%20Paradise.pdf", "_blank");
+  }}
+  style={{
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "15px 32px",
+    background: "#b88935",
+    color: "#ffffff",
+    textDecoration: "none",
+    fontSize: "12px",
+    fontWeight: "700",
+    letterSpacing: "1.8px",
+    border: "1px solid #b88935",
+    borderRadius: "2px",
+    boxShadow:
+      "0 6px 18px rgba(0, 0, 0, 0.12)",
+    transition: "all 0.3s ease",
+    cursor: "pointer",
+  }}
+>
+  VIEW FULL MENU
+</button>
 
       </div>
 
