@@ -14,7 +14,7 @@ function Booking() {
     adults: passedBookingData?.adults || "2",
     children: passedBookingData?.children || "0",
 
-    roomType: passedBookingData?.roomType || "Deluxe Room",
+    roomType: passedBookingData?.roomType || "Pacific",
 
     occupancy: "Double",
     mealPlan: "Room Only",
@@ -26,9 +26,10 @@ function Booking() {
   });
 
   const [message, setMessage] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   /*
-    IMPORTANT:
     Book Now se aayi Router state ko use karne ke baad
     history state clear kar dete hain.
 
@@ -44,6 +45,29 @@ function Booking() {
     }
   }, [location, navigate]);
 
+  // Load Razorpay Standard Checkout script once
+  useEffect(() => {
+    if (window.Razorpay) return;
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => {
+      console.log("Razorpay Checkout loaded successfully.");
+    };
+    script.onerror = () => {
+      console.error("Unable to load Razorpay Checkout.");
+    };
+
+    document.body.appendChild(script);
+
+    return () => {
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+    };
+  }, []);
+
   const today = new Date().toISOString().split("T")[0];
 
   /* =====================================================
@@ -51,7 +75,7 @@ function Booking() {
   ===================================================== */
 
   const roomRates = {
-    "Deluxe Room": {
+    Pacific: {
       Single: {
         "Room Only": 1999,
         Breakfast: 2249,
@@ -69,7 +93,7 @@ function Booking() {
       },
     },
 
-    "Executive Room": {
+    Presidential: {
       Single: {
         "Room Only": 2499,
         Breakfast: 2749,
@@ -118,7 +142,6 @@ function Booking() {
   const nights = calculateNights();
 
   const roomTotal = currentRate * nights;
-
   const totalAmount = roomTotal;
 
   /* =====================================================
@@ -137,28 +160,61 @@ function Booking() {
   };
 
   /* =====================================================
-     SUBMIT
+     OCCUPANCY CHANGE
   ===================================================== */
 
-  const handleSubmit = (e) => {
+  const handleOccupancyChange = (e) => {
+    const value = e.target.value;
+
+    setBookingData((prev) => ({
+      ...prev,
+      occupancy: value,
+      adults: value === "Single" ? "1" : "2",
+      children: value === "Single" ? "0" : prev.children,
+    }));
+
+    setMessage("");
+  };
+
+  /* =====================================================
+     SUBMIT BOOKING
+  ===================================================== */
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const currentDate = new Date();
+    if (isSubmitting) {
+      return;
+    }
 
+    const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
 
-    const checkInDate = new Date(
-      bookingData.checkIn
-    );
+    const checkInDate = new Date(bookingData.checkIn);
+    const checkOutDate = new Date(bookingData.checkOut);
 
-    const checkOutDate = new Date(
-      bookingData.checkOut
-    );
+    /* CHECK-IN VALIDATION */
+
+    if (
+      !bookingData.checkIn ||
+      Number.isNaN(checkInDate.getTime())
+    ) {
+      setMessage("Please select a valid check-in date.");
+      return;
+    }
 
     if (checkInDate < currentDate) {
-      setMessage(
-        "Please select a valid check-in date."
-      );
+      setMessage("Please select a valid check-in date.");
+      return;
+    }
+
+    /* CHECK-OUT VALIDATION */
+
+    if (
+      !bookingData.checkOut ||
+      Number.isNaN(checkOutDate.getTime())
+    ) {
+      setMessage("Please select a valid check-out date.");
       return;
     }
 
@@ -169,16 +225,256 @@ function Booking() {
       return;
     }
 
-    if (bookingData.phone.length !== 10) {
+    /* PHONE VALIDATION */
+
+    if (!/^\d{10}$/.test(bookingData.phone)) {
       setMessage(
         "Please enter a valid 10 digit phone number."
       );
       return;
     }
 
-    setMessage(
-      `Thank you ${bookingData.name}! Your booking request has been received. Our team will contact you shortly.`
-    );
+    /* SINGLE OCCUPANCY */
+
+    if (bookingData.occupancy === "Single") {
+      if (
+        bookingData.adults !== "1" ||
+        bookingData.children !== "0"
+      ) {
+        setMessage(
+          "Single Occupancy allows only 1 adult and 0 children."
+        );
+        return;
+      }
+    }
+
+    /* DOUBLE OCCUPANCY */
+
+    if (bookingData.occupancy === "Double") {
+      if (
+        bookingData.adults !== "2" ||
+        !["0", "1", "2"].includes(bookingData.children)
+      ) {
+        setMessage(
+          "Double Occupancy allows 2 adults and 0, 1 or 2 children."
+        );
+        return;
+      }
+    }
+
+    /* TERMS */
+
+    if (!termsAccepted) {
+      setMessage(
+        "Please accept the Terms & Conditions before submitting your booking request."
+      );
+      return;
+    }
+
+    /* NIGHT VALIDATION */
+
+    if (nights <= 0) {
+      setMessage(
+        "Please select valid check-in and check-out dates."
+      );
+      return;
+    }
+
+    /* RATE VALIDATION */
+
+    if (currentRate <= 0) {
+      setMessage(
+        "Unable to calculate the selected room rate."
+      );
+      return;
+    }
+
+    /* =====================================================
+       RAZORPAY PAYMENT + BOOKING
+    ===================================================== */
+
+    try {
+      setIsSubmitting(true);
+      setMessage("");
+
+      // Razorpay checkout script check
+      if (!window.Razorpay) {
+        throw new Error(
+          "Razorpay checkout is not loaded. Please refresh the page and try again."
+        );
+      }
+
+      const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
+
+      if (!razorpayKey) {
+        throw new Error(
+          "Razorpay configuration is missing. Please check the frontend .env file."
+        );
+      }
+
+      // Create Razorpay order from backend
+      const orderResponse = await fetch(
+        "http://localhost:5000/api/create-order",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: Math.round(totalAmount * 100),
+            receipt: `IKOR-${Date.now()}`,
+          }),
+        }
+      );
+
+      const orderData = await orderResponse.json();
+
+      if (!orderResponse.ok || !orderData.success) {
+        throw new Error(
+          orderData.message ||
+            "Unable to create payment order."
+        );
+      }
+
+      // Open Razorpay checkout
+      await new Promise((resolve, reject) => {
+        const options = {
+          key: razorpayKey,
+          amount: orderData.amount,
+          currency: orderData.currency || "INR",
+          name: "IKOR PARADISE",
+          description: `${bookingData.roomType} - ${bookingData.occupancy} Booking`,
+          order_id: orderData.order_id,
+          prefill: {
+            name: bookingData.name.trim(),
+            email: bookingData.email.trim(),
+            contact: bookingData.phone.trim(),
+          },
+          notes: {
+            roomType: bookingData.roomType,
+            occupancy: bookingData.occupancy,
+            checkIn: bookingData.checkIn,
+            checkOut: bookingData.checkOut,
+          },
+          theme: {
+            color: "#b88935",
+          },
+          handler: async (paymentResponse) => {
+            try {
+              // Verify payment signature on backend
+              const verifyResponse = await fetch(
+                "http://localhost:5000/api/verify-payment",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    razorpay_order_id:
+                      paymentResponse.razorpay_order_id,
+                    razorpay_payment_id:
+                      paymentResponse.razorpay_payment_id,
+                    razorpay_signature:
+                      paymentResponse.razorpay_signature,
+                  }),
+                }
+              );
+
+              const verifyData = await verifyResponse.json();
+
+              if (!verifyResponse.ok || !verifyData.success) {
+                throw new Error(
+                  verifyData.message ||
+                    "Payment verification failed."
+                );
+              }
+
+              // Save booking only after successful payment verification
+              const bookingResponse = await fetch(
+                "http://localhost:5000/api/bookings",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    name: bookingData.name.trim(),
+                    phone: bookingData.phone.trim(),
+                    email: bookingData.email.trim(),
+                    checkIn: bookingData.checkIn,
+                    checkOut: bookingData.checkOut,
+                    adults: Number(bookingData.adults),
+                    children: Number(bookingData.children),
+                    roomType: bookingData.roomType,
+                    occupancy: bookingData.occupancy,
+                    mealPlan: bookingData.mealPlan,
+                    specialRequest:
+                      bookingData.specialRequest.trim(),
+                    nights: nights,
+                    pricePerNight: currentRate,
+                    totalAmount: totalAmount,
+                  }),
+                }
+              );
+
+              const bookingDataResponse =
+                await bookingResponse.json();
+
+              if (!bookingResponse.ok || !bookingDataResponse.success) {
+                throw new Error(
+                  bookingDataResponse.message ||
+                    "Payment succeeded, but booking could not be saved. Please contact IKOR Paradise."
+                );
+              }
+
+              const bookingId =
+                bookingDataResponse.booking?.bookingId ||
+                "Generated Successfully";
+
+              setMessage(
+                `Payment successful! Thank you ${bookingData.name}. Your booking is confirmed for processing. Booking ID: ${bookingId}.`
+              );
+
+              setTermsAccepted(false);
+              resolve();
+            } catch (verificationError) {
+              reject(verificationError);
+            }
+          },
+          modal: {
+            ondismiss: () => {
+              reject(
+                new Error(
+                  "Payment was cancelled. Your booking was not submitted."
+                )
+              );
+            },
+          },
+        };
+
+        const razorpayCheckout = new window.Razorpay(options);
+
+        razorpayCheckout.on("payment.failed", (response) => {
+          reject(
+            new Error(
+              response.error?.description ||
+                "Payment failed. Please try again."
+            )
+          );
+        });
+
+        razorpayCheckout.open();
+      });
+    } catch (error) {
+      console.error("Booking/payment submission failed:", error);
+
+      setMessage(
+        error.message ||
+          "Unable to complete payment and booking. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -241,7 +537,6 @@ function Booking() {
               </span>
 
               <div>
-
                 <h2>
                   Stay Details
                 </h2>
@@ -249,7 +544,6 @@ function Booking() {
                 <p>
                   Select your preferred dates, room and meal plan.
                 </p>
-
               </div>
 
             </div>
@@ -311,6 +605,7 @@ function Booking() {
                   name="adults"
                   value={bookingData.adults}
                   onChange={handleChange}
+                  disabled
                 >
 
                   <option value="1">
@@ -319,22 +614,6 @@ function Booking() {
 
                   <option value="2">
                     2 Adults
-                  </option>
-
-                  <option value="3">
-                    3 Adults
-                  </option>
-
-                  <option value="4">
-                    4 Adults
-                  </option>
-
-                  <option value="5">
-                    5 Adults
-                  </option>
-
-                  <option value="6">
-                    6 Adults
                   </option>
 
                 </select>
@@ -354,26 +633,31 @@ function Booking() {
                   name="children"
                   value={bookingData.children}
                   onChange={handleChange}
+                  disabled={
+                    bookingData.occupancy === "Single"
+                  }
                 >
 
                   <option value="0">
                     No Children
                   </option>
 
-                  <option value="1">
+                  <option
+                    value="1"
+                    disabled={
+                      bookingData.occupancy === "Single"
+                    }
+                  >
                     1 Child
                   </option>
 
-                  <option value="2">
+                  <option
+                    value="2"
+                    disabled={
+                      bookingData.occupancy === "Single"
+                    }
+                  >
                     2 Children
-                  </option>
-
-                  <option value="3">
-                    3 Children
-                  </option>
-
-                  <option value="4">
-                    4 Children
                   </option>
 
                 </select>
@@ -395,12 +679,12 @@ function Booking() {
                   onChange={handleChange}
                 >
 
-                  <option value="Deluxe Room">
-                    Deluxe Room
+                  <option value="Pacific">
+                    PACIFIC ROOM
                   </option>
 
-                  <option value="Executive Room">
-                    Executive Room
+                  <option value="Presidential">
+                    PRESIDENTIAL ROOM
                   </option>
 
                 </select>
@@ -419,7 +703,7 @@ function Booking() {
                 <select
                   name="occupancy"
                   value={bookingData.occupancy}
-                  onChange={handleChange}
+                  onChange={handleOccupancyChange}
                 >
 
                   <option value="Single">
@@ -575,6 +859,7 @@ function Booking() {
             {/* TOTAL */}
 
             {nights > 0 && (
+
               <div
                 style={{
                   marginTop: "20px",
@@ -623,6 +908,7 @@ function Booking() {
                 </strong>
 
               </div>
+
             )}
 
           </div>
@@ -883,6 +1169,7 @@ function Booking() {
 
 
             {nights > 0 && (
+
               <div
                 style={{
                   marginTop: "22px",
@@ -912,6 +1199,7 @@ function Booking() {
                 </strong>
 
               </div>
+
             )}
 
           </div>
@@ -922,6 +1210,7 @@ function Booking() {
           ===================================================== */}
 
           {message && (
+
             <div
               className={
                 message.startsWith("Thank you")
@@ -931,7 +1220,64 @@ function Booking() {
             >
               {message}
             </div>
+
           )}
+
+
+          {/* =====================================================
+              TERMS & CONDITIONS
+          ===================================================== */}
+
+          <div
+            className="booking-terms"
+            style={{
+              marginBottom: "24px",
+              padding: "16px 18px",
+              background: "#faf7f1",
+              border: "1px solid #eadfcf",
+            }}
+          >
+
+            <label
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: "10px",
+                cursor: "pointer",
+                fontSize: "14px",
+                lineHeight: "1.6",
+                color: "#4d3b2e",
+              }}
+            >
+
+              <input
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={(e) => {
+                  setTermsAccepted(e.target.checked);
+                  setMessage("");
+                }}
+                style={{
+                  marginTop: "4px",
+                  width: "17px",
+                  height: "17px",
+                  flexShrink: 0,
+                  accentColor: "#b88935",
+                }}
+              />
+
+              <span>
+                I agree to the{" "}
+                <strong>
+                  Terms & Conditions
+                </strong>{" "}
+                of IKOR Paradise.
+                I confirm that the booking details provided by me are correct.
+              </span>
+
+            </label>
+
+          </div>
 
 
           {/* =====================================================
@@ -956,8 +1302,11 @@ function Booking() {
             <button
               type="submit"
               className="booking-submit-btn"
+              disabled={isSubmitting}
             >
-              REQUEST BOOKING
+              {isSubmitting
+                ? "PROCESSING PAYMENT..."
+                : "PAY & REQUEST BOOKING"}
             </button>
 
           </div>

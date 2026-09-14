@@ -23,8 +23,11 @@ import executive1Image from "./assets/images/executive-1.jpg";
 import bathroomRealImage from "./assets/images/bathroom-real.jpg";
 import restaurantImage from "./assets/images/restaurant-interior.jpg";
 import banquetHallImage from "./assets/images/banquet-hall.jpg";
-import ScrollToTop from "./ScrollToTop";
 
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+
+import ScrollToTop from "./ScrollToTop";
 
 /* =========================================================
    HOME PAGE
@@ -78,7 +81,6 @@ function Home() {
             </div>
 
           </div>
-
 
           {/* =====================================================
               BOOKING SEARCH
@@ -348,39 +350,39 @@ function Home() {
             </div>
 
 
-            {/* DELUXE ROOM - ONLY ONE PHOTO */}
+            {/* PACIFIC ROOM */}
 
             <div className="gallery-item">
 
               <img
                 src={deluxe1Image}
-                alt="IKOR Paradise Deluxe Room"
+                alt="IKOR Paradise Pacific Room"
               />
 
               <div className="gallery-caption">
-                Deluxe Room
+                Pacific Room
               </div>
 
             </div>
 
 
-            {/* EXECUTIVE ROOM - ONLY ONE PHOTO */}
+            {/* PRESIDENTIAL ROOM */}
 
             <div className="gallery-item">
 
               <img
                 src={executive1Image}
-                alt="IKOR Paradise Executive Room"
+                alt="IKOR Paradise Presidential Room"
               />
 
               <div className="gallery-caption">
-                Executive Room
+                Presidential Room
               </div>
 
             </div>
 
 
-            {/* BATHROOM - ACTUAL PHOTO */}
+            {/* BATHROOM */}
 
             <div className="gallery-item">
 
@@ -880,14 +882,35 @@ function App() {
 
       <Routes>
 
+        {/* Main Website */}
+
         <Route
           path="/"
           element={<Home />}
         />
 
+
+        {/* Room Booking */}
+
         <Route
           path="/booking"
           element={<Booking />}
+        />
+
+
+        {/* Admin Login */}
+
+        <Route
+          path="/admin-login"
+          element={<AdminLogin />}
+        />
+
+
+        {/* Admin Dashboard */}
+
+        <Route
+          path="/admin"
+          element={<AdminDashboard />}
         />
 
       </Routes>

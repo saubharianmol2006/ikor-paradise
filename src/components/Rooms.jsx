@@ -13,15 +13,15 @@ import executive2 from "../assets/images/executive-2.jpg";
 function Rooms() {
   const rooms = [
     {
-      name: "Deluxe Room",
-      tariffName: "Pacific",
+      name: "Pacific Room",
+tariffName: "Pacific",
 
       price: "₹1,999 Single | ₹2,499 Double",
 
       images: [deluxe1, deluxe2, deluxe3],
 
       description:
-        "A comfortable and elegant room designed for a relaxing and peaceful stay.",
+        "A comfortable and elegant room designed for a relaxing and peaceful stay at IKOR Paradise.",
 
       features: [
         "King Bed",
@@ -51,7 +51,7 @@ function Rooms() {
     },
 
     {
-      name: "Executive Room",
+      name: "Presidential Room",
       tariffName: "Presidential",
 
       price: "₹2,499 Single | ₹2,999 Double",
@@ -59,7 +59,7 @@ function Rooms() {
       images: [roomImage, executive1, executive2],
 
       description:
-        "Experience extra comfort and premium facilities in our executive room.",
+        "Experience extra comfort and premium facilities in our Presidential room at IKOR Paradise.",
 
       features: [
         "King Bed",
@@ -337,8 +337,8 @@ function Rooms() {
                     to="/booking"
                     state={{
                       bookingData: {
-                        roomType: room.name,
-                      },
+  roomType: room.tariffName,
+},
                     }}
                     className="room-book-link"
                   >
