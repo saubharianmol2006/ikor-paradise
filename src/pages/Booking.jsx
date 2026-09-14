@@ -314,7 +314,7 @@ function Booking() {
 
       // Create Razorpay order from backend
       const orderResponse = await fetch(
-        "http://localhost:5000/api/create-order",
+        "https://ikor-paradise.onrender.com/api/create-order",
         {
           method: "POST",
           headers: {
@@ -363,7 +363,7 @@ function Booking() {
             try {
               // Verify payment signature on backend
               const verifyResponse = await fetch(
-                "http://localhost:5000/api/verify-payment",
+                "https://ikor-paradise.onrender.com/api/verify-payment",
                 {
                   method: "POST",
                   headers: {
@@ -391,7 +391,7 @@ function Booking() {
 
               // Save booking only after successful payment verification
               const bookingResponse = await fetch(
-                "http://localhost:5000/api/bookings",
+                "https://ikor-paradise.onrender.com/api/bookings",
                 {
                   method: "POST",
                   headers: {

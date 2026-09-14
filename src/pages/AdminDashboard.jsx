@@ -36,7 +36,7 @@ function AdminDashboard() {
       setLoading(true);
       setError("");
 
-      const response = await fetch("http://localhost:5000/api/bookings");
+      const response = await fetch("https://ikor-paradise.onrender.com/api/bookings");
       const data = await response.json();
 
       if (!response.ok || !data.success) {
@@ -99,7 +99,7 @@ function AdminDashboard() {
       setError("");
 
       const response = await fetch(
-        `http://localhost:5000/api/bookings/${bookingId}/status`,
+        `https://ikor-paradise.onrender.com/api/bookings/${bookingId}/status`,
         {
           method: "PUT",
           headers: {
