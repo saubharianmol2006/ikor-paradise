@@ -93,10 +93,34 @@ const bookingSchema = new mongoose.Schema(
       required: true,
     },
 
+    // Booking status - hotel/admin side
     status: {
       type: String,
       enum: ["Pending", "Confirmed", "Cancelled", "Completed"],
       default: "Pending",
+    },
+
+    // Payment status - Razorpay side
+    paymentStatus: {
+      type: String,
+      enum: ["Pending", "Paid", "Failed"],
+      default: "Pending",
+    },
+
+    // Razorpay order/payment details
+    razorpayOrderId: {
+      type: String,
+      default: "",
+    },
+
+    razorpayPaymentId: {
+      type: String,
+      default: "",
+    },
+
+    razorpaySignature: {
+      type: String,
+      default: "",
     },
   },
   {

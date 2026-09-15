@@ -52,9 +52,11 @@ function Booking() {
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
     script.async = true;
+
     script.onload = () => {
       console.log("Razorpay Checkout loaded successfully.");
     };
+
     script.onerror = () => {
       console.error("Unable to load Razorpay Checkout.");
     };
@@ -304,7 +306,8 @@ function Booking() {
         );
       }
 
-      const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
+      const razorpayKey =
+        import.meta.env.VITE_RAZORPAY_KEY_ID;
 
       if (!razorpayKey) {
         throw new Error(
@@ -312,7 +315,10 @@ function Booking() {
         );
       }
 
-      // Create Razorpay order from backend
+      /* =====================================================
+         STEP 1: CREATE RAZORPAY ORDER
+      ===================================================== */
+
       const orderResponse = await fetch(
         "https://ikor-paradise.onrender.com/api/create-order",
         {
@@ -320,6 +326,7 @@ function Booking() {
           headers: {
             "Content-Type": "application/json",
           },
+
           body: JSON.stringify({
             amount: Math.round(totalAmount * 100),
             receipt: `IKOR-${Date.now()}`,
@@ -336,29 +343,124 @@ function Booking() {
         );
       }
 
-      // Open Razorpay checkout
+      /* =====================================================
+         STEP 2: SAVE BOOKING BEFORE OPENING RAZORPAY
+      ===================================================== */
+
+      const bookingId = `IKOR-${Date.now()}`;
+
+      const bookingResponse = await fetch(
+        "https://ikor-paradise.onrender.com/api/bookings",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            bookingId,
+
+            name: bookingData.name.trim(),
+
+            phone: bookingData.phone.trim(),
+
+            email: bookingData.email.trim(),
+
+            checkIn: bookingData.checkIn,
+
+            checkOut: bookingData.checkOut,
+
+            adults: Number(bookingData.adults),
+
+            children: Number(bookingData.children),
+
+            roomType: bookingData.roomType,
+
+            occupancy: bookingData.occupancy,
+
+            mealPlan: bookingData.mealPlan,
+
+            specialRequest:
+              bookingData.specialRequest.trim(),
+
+            nights,
+
+            pricePerNight: currentRate,
+
+            totalAmount,
+
+            razorpayOrderId: orderData.order_id,
+
+            paymentStatus: "Pending",
+          }),
+        }
+      );
+
+      const savedBookingData =
+        await bookingResponse.json();
+
+      if (
+        !bookingResponse.ok ||
+        !savedBookingData.success
+      ) {
+        throw new Error(
+          savedBookingData.message ||
+            "Unable to save booking details."
+        );
+      }
+
+      console.log(
+        "Booking saved before payment:",
+        savedBookingData.booking
+      );
+
+      /* =====================================================
+         STEP 3: OPEN RAZORPAY CHECKOUT
+      ===================================================== */
+
       await new Promise((resolve, reject) => {
         const options = {
           key: razorpayKey,
+
           amount: orderData.amount,
-          currency: orderData.currency || "INR",
+
+          currency:
+            orderData.currency || "INR",
+
           name: "IKOR PARADISE",
+
           description: `${bookingData.roomType} - ${bookingData.occupancy} Booking`,
+
           order_id: orderData.order_id,
+
           prefill: {
             name: bookingData.name.trim(),
+
             email: bookingData.email.trim(),
+
             contact: bookingData.phone.trim(),
           },
+
           notes: {
+            bookingId,
+
             roomType: bookingData.roomType,
+
             occupancy: bookingData.occupancy,
+
             checkIn: bookingData.checkIn,
+
             checkOut: bookingData.checkOut,
           },
+
           theme: {
             color: "#b88935",
           },
+
+          /* =================================================
+             PAYMENT SUCCESS
+          ================================================= */
+
           handler: async (paymentResponse) => {
             try {
               // Verify payment signature on backend
@@ -366,107 +468,93 @@ function Booking() {
                 "https://ikor-paradise.onrender.com/api/verify-payment",
                 {
                   method: "POST",
+
                   headers: {
                     "Content-Type": "application/json",
                   },
+
                   body: JSON.stringify({
+                    bookingId,
+
                     razorpay_order_id:
                       paymentResponse.razorpay_order_id,
+
                     razorpay_payment_id:
                       paymentResponse.razorpay_payment_id,
+
                     razorpay_signature:
                       paymentResponse.razorpay_signature,
                   }),
                 }
               );
 
-              const verifyData = await verifyResponse.json();
+              const verifyData =
+                await verifyResponse.json();
 
-              if (!verifyResponse.ok || !verifyData.success) {
+              if (
+                !verifyResponse.ok ||
+                !verifyData.success
+              ) {
                 throw new Error(
                   verifyData.message ||
                     "Payment verification failed."
                 );
               }
 
-              // Save booking only after successful payment verification
-              const bookingResponse = await fetch(
-                "https://ikor-paradise.onrender.com/api/bookings",
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    name: bookingData.name.trim(),
-                    phone: bookingData.phone.trim(),
-                    email: bookingData.email.trim(),
-                    checkIn: bookingData.checkIn,
-                    checkOut: bookingData.checkOut,
-                    adults: Number(bookingData.adults),
-                    children: Number(bookingData.children),
-                    roomType: bookingData.roomType,
-                    occupancy: bookingData.occupancy,
-                    mealPlan: bookingData.mealPlan,
-                    specialRequest:
-                      bookingData.specialRequest.trim(),
-                    nights: nights,
-                    pricePerNight: currentRate,
-                    totalAmount: totalAmount,
-                  }),
-                }
-              );
-
-              const bookingDataResponse =
-                await bookingResponse.json();
-
-              if (!bookingResponse.ok || !bookingDataResponse.success) {
-                throw new Error(
-                  bookingDataResponse.message ||
-                    "Payment succeeded, but booking could not be saved. Please contact IKOR Paradise."
-                );
-              }
-
-              const bookingId =
-                bookingDataResponse.booking?.bookingId ||
-                "Generated Successfully";
-
               setMessage(
                 `Payment successful! Thank you ${bookingData.name}. Your booking is confirmed for processing. Booking ID: ${bookingId}.`
               );
 
               setTermsAccepted(false);
+
               resolve();
             } catch (verificationError) {
               reject(verificationError);
             }
           },
+
+          /* =================================================
+             RAZORPAY CLOSED / BACK BUTTON
+          ================================================= */
+
           modal: {
             ondismiss: () => {
               reject(
                 new Error(
-                  "Payment was cancelled. Your booking was not submitted."
+                  `Payment was cancelled or not completed. Your booking details are saved with Booking ID: ${bookingId}.`
                 )
               );
             },
           },
         };
 
-        const razorpayCheckout = new window.Razorpay(options);
+        const razorpayCheckout =
+          new window.Razorpay(options);
 
-        razorpayCheckout.on("payment.failed", (response) => {
-          reject(
-            new Error(
-              response.error?.description ||
-                "Payment failed. Please try again."
-            )
-          );
-        });
+        /* =================================================
+           PAYMENT FAILED
+        ================================================= */
+
+        razorpayCheckout.on(
+          "payment.failed",
+          (response) => {
+            reject(
+              new Error(
+                `Payment failed. Your booking details are saved with Booking ID: ${bookingId}. ${
+                  response.error?.description || ""
+                }`
+              )
+            );
+          }
+        );
 
         razorpayCheckout.open();
       });
     } catch (error) {
-      console.error("Booking/payment submission failed:", error);
+      console.error(
+        "Booking/payment submission failed:",
+        error
+      );
 
       setMessage(
         error.message ||
@@ -1213,7 +1301,7 @@ function Booking() {
 
             <div
               className={
-                message.startsWith("Thank you")
+                message.startsWith("Payment successful")
                   ? "booking-message success"
                   : "booking-message error"
               }

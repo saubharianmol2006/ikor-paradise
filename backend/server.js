@@ -61,8 +61,7 @@ app.post("/api/create-order", async (req, res) => {
       });
     }
 
-    const orderReceipt =
-      receipt || `IKOR-${Date.now()}`;
+    const orderReceipt = receipt || `IKOR-${Date.now()}`;
 
     const order = await razorpay.orders.create({
       amount: amountInPaise,
@@ -109,6 +108,7 @@ app.post("/api/verify-payment", async (req, res) => {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
+      bookingId,
     } = req.body;
 
     // Required fields validation
@@ -159,9 +159,48 @@ app.post("/api/verify-payment", async (req, res) => {
       });
     }
 
+    // =====================================================
+    // UPDATE EXISTING BOOKING AFTER SUCCESSFUL PAYMENT
+    // =====================================================
+
+    let booking = null;
+
+    if (bookingId) {
+      booking = await Booking.findOne({
+        bookingId,
+      });
+    }
+
+    // Fallback: find booking using Razorpay order ID
+    if (!booking) {
+      booking = await Booking.findOne({
+        razorpayOrderId: razorpay_order_id,
+      });
+    }
+
+    if (!booking) {
+      return res.status(404).json({
+        success: false,
+        message:
+          "Payment verified, but booking record was not found.",
+      });
+    }
+
+    booking.paymentStatus = "Paid";
+    booking.razorpayOrderId = razorpay_order_id;
+    booking.razorpayPaymentId = razorpay_payment_id;
+    booking.razorpaySignature = razorpay_signature;
+
+    await booking.save();
+
     return res.status(200).json({
       success: true,
       message: "Payment verified successfully.",
+      booking: {
+        bookingId: booking.bookingId,
+        status: booking.status,
+        paymentStatus: booking.paymentStatus,
+      },
       payment: {
         razorpay_order_id,
         razorpay_payment_id,
@@ -257,6 +296,7 @@ app.put(
           name: booking.name,
           roomType: booking.roomType,
           status: booking.status,
+          paymentStatus: booking.paymentStatus,
         },
       });
     } catch (error) {
@@ -278,6 +318,7 @@ app.put(
 app.post("/api/bookings", async (req, res) => {
   try {
     const {
+      bookingId,
       name,
       phone,
       email,
@@ -292,6 +333,8 @@ app.post("/api/bookings", async (req, res) => {
       nights,
       pricePerNight,
       totalAmount,
+      razorpayOrderId,
+      paymentStatus,
     } = req.body;
 
     // Required fields
@@ -372,41 +415,107 @@ app.post("/api/bookings", async (req, res) => {
       });
     }
 
-    // Generate booking ID
-    const bookingId = `IKOR-${Date.now()}`;
+    // =====================================================
+    // BOOKING ID
+    // =====================================================
 
-    // Save booking
+    const finalBookingId =
+      bookingId || `IKOR-${Date.now()}`;
+
+    // =====================================================
+    // PAYMENT STATUS
+    // =====================================================
+
+    const finalPaymentStatus =
+      paymentStatus === "Paid"
+        ? "Paid"
+        : "Pending";
+
+    // =====================================================
+    // SAVE BOOKING
+    // =====================================================
+
     const booking = await Booking.create({
-      bookingId,
+      bookingId: finalBookingId,
+
       name: String(name).trim(),
+
       phone: String(phone).trim(),
-      email: String(email).trim().toLowerCase(),
+
+      email: String(email)
+        .trim()
+        .toLowerCase(),
+
       checkIn: checkInDate,
+
       checkOut: checkOutDate,
+
       adults: Number(adults),
+
       children: Number(children),
+
       roomType,
+
       occupancy,
+
       mealPlan,
-      specialRequest: specialRequest || "",
+
+      specialRequest:
+        specialRequest || "",
+
       nights: Number(nights),
-      pricePerNight: Number(pricePerNight),
-      totalAmount: Number(totalAmount),
+
+      pricePerNight:
+        Number(pricePerNight),
+
+      totalAmount:
+        Number(totalAmount),
+
       status: "Pending",
+
+      paymentStatus:
+        finalPaymentStatus,
+
+      razorpayOrderId:
+        razorpayOrderId || "",
+
+      razorpayPaymentId: "",
+
+      razorpaySignature: "",
     });
 
     return res.status(201).json({
       success: true,
       message:
-        "Booking request submitted successfully.",
+        "Booking request saved successfully.",
+
       booking: {
-        bookingId: booking.bookingId,
-        name: booking.name,
-        roomType: booking.roomType,
-        checkIn: booking.checkIn,
-        checkOut: booking.checkOut,
-        totalAmount: booking.totalAmount,
-        status: booking.status,
+        bookingId:
+          booking.bookingId,
+
+        name:
+          booking.name,
+
+        roomType:
+          booking.roomType,
+
+        checkIn:
+          booking.checkIn,
+
+        checkOut:
+          booking.checkOut,
+
+        totalAmount:
+          booking.totalAmount,
+
+        status:
+          booking.status,
+
+        paymentStatus:
+          booking.paymentStatus,
+
+        razorpayOrderId:
+          booking.razorpayOrderId,
       },
     });
   } catch (error) {
@@ -441,5 +550,6 @@ mongoose
     console.error(
       "MongoDB connection failed:"
     );
+
     console.error(error.message);
   });

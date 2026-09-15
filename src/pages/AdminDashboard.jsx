@@ -36,16 +36,22 @@ function AdminDashboard() {
       setLoading(true);
       setError("");
 
-      const response = await fetch("https://ikor-paradise.onrender.com/api/bookings");
+      const response = await fetch(
+        "https://ikor-paradise.onrender.com/api/bookings"
+      );
+
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(data.message || "Unable to load bookings.");
+        throw new Error(
+          data.message || "Unable to load bookings."
+        );
       }
 
       setBookings(data.bookings || []);
     } catch (err) {
       console.error(err);
+
       setError(
         "Unable to load bookings. Please check the backend server."
       );
@@ -140,6 +146,7 @@ function AdminDashboard() {
       );
     } catch (err) {
       console.error(err);
+
       setError(
         err.message || "Unable to update booking status."
       );
@@ -159,7 +166,8 @@ function AdminDashboard() {
       booking.bookingId?.toLowerCase().includes(searchText) ||
       booking.name?.toLowerCase().includes(searchText) ||
       booking.phone?.includes(searchText) ||
-      booking.roomType?.toLowerCase().includes(searchText);
+      booking.roomType?.toLowerCase().includes(searchText) ||
+      booking.paymentStatus?.toLowerCase().includes(searchText);
 
     const matchesStatus =
       statusFilter === "All" ||
@@ -215,7 +223,7 @@ function AdminDashboard() {
   };
 
   /* =========================================================
-     STATUS COLORS
+     BOOKING STATUS COLORS
      ========================================================= */
 
   const getStatusStyle = (status) => {
@@ -250,6 +258,35 @@ function AdminDashboard() {
     }
   };
 
+  /* =========================================================
+     PAYMENT STATUS COLORS
+     ========================================================= */
+
+  const getPaymentStatusStyle = (paymentStatus) => {
+    switch (paymentStatus) {
+      case "Paid":
+        return {
+          color: "#16733b",
+          background: "#e7f7ed",
+          borderColor: "#b9e4c8",
+        };
+
+      case "Failed":
+        return {
+          color: "#b42318",
+          background: "#fdeceb",
+          borderColor: "#f3c2bd",
+        };
+
+      default:
+        return {
+          color: "#9a6700",
+          background: "#fff5d6",
+          borderColor: "#ead59b",
+        };
+    }
+  };
+
   return (
     <div className="admin-dashboard">
 
@@ -260,12 +297,16 @@ function AdminDashboard() {
       <aside className="admin-sidebar">
 
         <div className="admin-sidebar-brand">
-          <div className="sidebar-logo">IK</div>
+
+          <div className="sidebar-logo">
+            IK
+          </div>
 
           <div>
             <h2>IKOR</h2>
             <span>PARADISE</span>
           </div>
+
         </div>
 
         <div className="sidebar-divider"></div>
@@ -304,12 +345,16 @@ function AdminDashboard() {
         <div className="sidebar-bottom">
 
           <div className="admin-user">
-            <div className="admin-user-avatar">A</div>
+
+            <div className="admin-user-avatar">
+              A
+            </div>
 
             <div>
               <strong>Administrator</strong>
               <small>Hotel Management</small>
             </div>
+
           </div>
 
           <button
@@ -324,6 +369,7 @@ function AdminDashboard() {
 
       </aside>
 
+
       {/* =====================================================
           MAIN AREA
           ===================================================== */}
@@ -335,6 +381,7 @@ function AdminDashboard() {
         <header className="admin-topbar">
 
           <div>
+
             <p className="admin-overline">
               IKOR PARADISE • MANAGEMENT
             </p>
@@ -344,6 +391,7 @@ function AdminDashboard() {
             <p className="admin-welcome">
               Welcome back, Administrator. Here's today's overview.
             </p>
+
           </div>
 
           <div className="admin-top-actions">
@@ -368,6 +416,7 @@ function AdminDashboard() {
 
         </header>
 
+
         {/* =====================================================
             STAT CARDS
             ===================================================== */}
@@ -376,7 +425,9 @@ function AdminDashboard() {
 
           <div className="admin-stat-card">
 
-            <div className="stat-icon gold">▤</div>
+            <div className="stat-icon gold">
+              ▤
+            </div>
 
             <div>
               <span>Total Bookings</span>
@@ -386,9 +437,12 @@ function AdminDashboard() {
 
           </div>
 
+
           <div className="admin-stat-card">
 
-            <div className="stat-icon orange">◷</div>
+            <div className="stat-icon orange">
+              ◷
+            </div>
 
             <div>
               <span>Pending</span>
@@ -398,9 +452,12 @@ function AdminDashboard() {
 
           </div>
 
+
           <div className="admin-stat-card">
 
-            <div className="stat-icon green">✓</div>
+            <div className="stat-icon green">
+              ✓
+            </div>
 
             <div>
               <span>Confirmed</span>
@@ -410,9 +467,12 @@ function AdminDashboard() {
 
           </div>
 
+
           <div className="admin-stat-card">
 
-            <div className="stat-icon blue">₹</div>
+            <div className="stat-icon blue">
+              ₹
+            </div>
 
             <div>
               <span>Booking Value</span>
@@ -428,6 +488,7 @@ function AdminDashboard() {
 
         </section>
 
+
         {/* =====================================================
             QUICK INFORMATION
             ===================================================== */}
@@ -440,7 +501,9 @@ function AdminDashboard() {
               HOTEL OPERATIONS
             </span>
 
-            <h2>Reservation Management</h2>
+            <h2>
+              Reservation Management
+            </h2>
 
             <p>
               Manage guest reservations and keep track of your
@@ -450,11 +513,14 @@ function AdminDashboard() {
           </div>
 
           <div className="panel-badge">
+
             <span className="live-dot"></span>
             System Online
+
           </div>
 
         </section>
+
 
         {/* =====================================================
             BOOKINGS
@@ -473,7 +539,9 @@ function AdminDashboard() {
                 RESERVATIONS
               </span>
 
-              <h2>Recent Bookings</h2>
+              <h2>
+                Recent Bookings
+              </h2>
 
             </div>
 
@@ -485,6 +553,7 @@ function AdminDashboard() {
             </button>
 
           </div>
+
 
           {/* FILTER BAR */}
 
@@ -510,14 +579,31 @@ function AdminDashboard() {
               }
               className="status-filter"
             >
-              <option value="All">All Status</option>
-              <option value="Pending">Pending</option>
-              <option value="Confirmed">Confirmed</option>
-              <option value="Cancelled">Cancelled</option>
-              <option value="Completed">Completed</option>
+
+              <option value="All">
+                All Status
+              </option>
+
+              <option value="Pending">
+                Pending
+              </option>
+
+              <option value="Confirmed">
+                Confirmed
+              </option>
+
+              <option value="Cancelled">
+                Cancelled
+              </option>
+
+              <option value="Completed">
+                Completed
+              </option>
+
             </select>
 
           </div>
+
 
           {/* ERROR */}
 
@@ -527,6 +613,7 @@ function AdminDashboard() {
             </div>
           )}
 
+
           {/* LOADING */}
 
           {loading ? (
@@ -535,7 +622,9 @@ function AdminDashboard() {
 
               <div className="loading-spinner"></div>
 
-              <p>Loading bookings...</p>
+              <p>
+                Loading bookings...
+              </p>
 
             </div>
 
@@ -543,9 +632,13 @@ function AdminDashboard() {
 
             <div className="admin-empty">
 
-              <div className="empty-icon">▤</div>
+              <div className="empty-icon">
+                ▤
+              </div>
 
-              <h3>No bookings found</h3>
+              <h3>
+                No bookings found
+              </h3>
 
               <p>
                 New reservations will appear here automatically.
@@ -562,18 +655,51 @@ function AdminDashboard() {
                 <thead>
 
                   <tr>
-                    <th>BOOKING</th>
-                    <th>GUEST</th>
-                    <th>ROOM</th>
-                    <th>STAY</th>
-                    <th>GUESTS</th>
-                    <th>MEAL PLAN</th>
-                    <th>AMOUNT</th>
-                    <th>STATUS</th>
-                    <th>ACTION</th>
+
+                    <th>
+                      BOOKING
+                    </th>
+
+                    <th>
+                      GUEST
+                    </th>
+
+                    <th>
+                      ROOM
+                    </th>
+
+                    <th>
+                      STAY
+                    </th>
+
+                    <th>
+                      GUESTS
+                    </th>
+
+                    <th>
+                      MEAL PLAN
+                    </th>
+
+                    <th>
+                      AMOUNT
+                    </th>
+
+                    <th>
+                      STATUS
+                    </th>
+
+                    <th>
+                      PAYMENT
+                    </th>
+
+                    <th>
+                      ACTION
+                    </th>
+
                   </tr>
 
                 </thead>
+
 
                 <tbody>
 
@@ -582,8 +708,16 @@ function AdminDashboard() {
                     const currentStatus =
                       booking.status || "Pending";
 
+                    const currentPaymentStatus =
+                      booking.paymentStatus || "Pending";
+
                     const statusStyle =
                       getStatusStyle(currentStatus);
+
+                    const paymentStatusStyle =
+                      getPaymentStatusStyle(
+                        currentPaymentStatus
+                      );
 
                     const isUpdating =
                       updatingBookingId ===
@@ -607,10 +741,13 @@ function AdminDashboard() {
                           </div>
 
                           <small>
-                            {formatDate(booking.createdAt)}
+                            {formatDate(
+                              booking.createdAt
+                            )}
                           </small>
 
                         </td>
+
 
                         {/* GUEST */}
 
@@ -626,6 +763,7 @@ function AdminDashboard() {
 
                         </td>
 
+
                         {/* ROOM */}
 
                         <td>
@@ -639,6 +777,7 @@ function AdminDashboard() {
                           </small>
 
                         </td>
+
 
                         {/* STAY */}
 
@@ -669,6 +808,7 @@ function AdminDashboard() {
 
                         </td>
 
+
                         {/* GUESTS */}
 
                         <td>
@@ -689,6 +829,7 @@ function AdminDashboard() {
 
                         </td>
 
+
                         {/* MEAL PLAN */}
 
                         <td>
@@ -698,6 +839,7 @@ function AdminDashboard() {
                           </span>
 
                         </td>
+
 
                         {/* AMOUNT */}
 
@@ -712,7 +854,8 @@ function AdminDashboard() {
 
                         </td>
 
-                        {/* STATUS */}
+
+                        {/* BOOKING STATUS */}
 
                         <td>
 
@@ -767,6 +910,37 @@ function AdminDashboard() {
 
                         </td>
 
+
+                        {/* PAYMENT STATUS */}
+
+                        <td>
+
+                          <span
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              minWidth: "78px",
+                              padding: "7px 10px",
+                              borderRadius: "999px",
+                              border: `1px solid ${paymentStatusStyle.borderColor}`,
+                              background:
+                                paymentStatusStyle.background,
+                              color:
+                                paymentStatusStyle.color,
+                              fontSize: "11px",
+                              fontWeight: "700",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+
+                            {currentPaymentStatus}
+
+                          </span>
+
+                        </td>
+
+
                         {/* VIEW DETAILS */}
 
                         <td>
@@ -799,13 +973,16 @@ function AdminDashboard() {
 
         </section>
 
+
         {/* =====================================================
             FOOTER
             ===================================================== */}
 
         <footer className="admin-dashboard-footer">
 
-          <span>IKOR PARADISE</span>
+          <span>
+            IKOR PARADISE
+          </span>
 
           <span>
             Hotel • Banquet • Restaurant
@@ -818,6 +995,7 @@ function AdminDashboard() {
         </footer>
 
       </main>
+
 
       {/* =====================================================
           BOOKING DETAILS MODAL
@@ -867,6 +1045,7 @@ function AdminDashboard() {
 
             </div>
 
+
             {/* MODAL BODY */}
 
             <div className="booking-modal-body">
@@ -888,6 +1067,7 @@ function AdminDashboard() {
 
                 </div>
 
+
                 <div
                   className={`booking-modal-status ${String(
                     selectedBooking.status ||
@@ -903,6 +1083,103 @@ function AdminDashboard() {
                 </div>
 
               </div>
+
+
+              {/* PAYMENT STATUS */}
+
+              <div
+                style={{
+                  marginBottom: "22px",
+                  padding: "16px 18px",
+                  borderRadius: "10px",
+                  border: `1px solid ${
+                    getPaymentStatusStyle(
+                      selectedBooking.paymentStatus ||
+                        "Pending"
+                    ).borderColor
+                  }`,
+                  background:
+                    getPaymentStatusStyle(
+                      selectedBooking.paymentStatus ||
+                        "Pending"
+                    ).background,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "15px",
+                  flexWrap: "wrap",
+                }}
+              >
+
+                <div>
+
+                  <span
+                    style={{
+                      display: "block",
+                      fontSize: "10px",
+                      letterSpacing: "1.2px",
+                      fontWeight: "700",
+                      marginBottom: "5px",
+                      color: "#777",
+                    }}
+                  >
+                    PAYMENT STATUS
+                  </span>
+
+                  <strong
+                    style={{
+                      color:
+                        getPaymentStatusStyle(
+                          selectedBooking.paymentStatus ||
+                            "Pending"
+                        ).color,
+                      fontSize: "15px",
+                    }}
+                  >
+                    {selectedBooking.paymentStatus ||
+                      "Pending"}
+                  </strong>
+
+                </div>
+
+
+                {selectedBooking.razorpayPaymentId && (
+
+                  <div
+                    style={{
+                      textAlign: "right",
+                    }}
+                  >
+
+                    <span
+                      style={{
+                        display: "block",
+                        fontSize: "10px",
+                        letterSpacing: "1.2px",
+                        fontWeight: "700",
+                        marginBottom: "5px",
+                        color: "#777",
+                      }}
+                    >
+                      PAYMENT ID
+                    </span>
+
+                    <strong
+                      style={{
+                        fontSize: "11px",
+                        color: "#555",
+                        wordBreak: "break-all",
+                      }}
+                    >
+                      {selectedBooking.razorpayPaymentId}
+                    </strong>
+
+                  </div>
+
+                )}
+
+              </div>
+
 
               {/* DETAILS */}
 
@@ -920,6 +1197,7 @@ function AdminDashboard() {
 
                 </div>
 
+
                 <div className="booking-detail-card">
 
                   <span>
@@ -931,6 +1209,7 @@ function AdminDashboard() {
                   </strong>
 
                 </div>
+
 
                 <div className="booking-detail-card">
 
@@ -944,6 +1223,7 @@ function AdminDashboard() {
 
                 </div>
 
+
                 <div className="booking-detail-card">
 
                   <span>
@@ -955,6 +1235,7 @@ function AdminDashboard() {
                   </strong>
 
                 </div>
+
 
                 <div className="booking-detail-card">
 
@@ -968,6 +1249,7 @@ function AdminDashboard() {
 
                 </div>
 
+
                 <div className="booking-detail-card">
 
                   <span>
@@ -979,6 +1261,7 @@ function AdminDashboard() {
                   </strong>
 
                 </div>
+
 
                 <div className="booking-detail-card">
 
@@ -992,6 +1275,7 @@ function AdminDashboard() {
 
                 </div>
 
+
                 <div className="booking-detail-card">
 
                   <span>
@@ -1003,6 +1287,7 @@ function AdminDashboard() {
                   </strong>
 
                 </div>
+
 
                 <div className="booking-detail-card">
 
@@ -1018,6 +1303,7 @@ function AdminDashboard() {
 
                 </div>
 
+
                 <div className="booking-detail-card">
 
                   <span>
@@ -1032,6 +1318,7 @@ function AdminDashboard() {
 
                 </div>
 
+
                 <div className="booking-detail-card">
 
                   <span>
@@ -1043,6 +1330,7 @@ function AdminDashboard() {
                   </strong>
 
                 </div>
+
 
                 <div className="booking-detail-card">
 
@@ -1060,6 +1348,7 @@ function AdminDashboard() {
 
                 </div>
 
+
                 <div className="booking-detail-card full-width">
 
                   <span>
@@ -1074,7 +1363,31 @@ function AdminDashboard() {
 
                 </div>
 
+
+                {/* RAZORPAY ORDER */}
+
+                {selectedBooking.razorpayOrderId && (
+
+                  <div className="booking-detail-card full-width">
+
+                    <span>
+                      RAZORPAY ORDER ID
+                    </span>
+
+                    <strong
+                      style={{
+                        wordBreak: "break-all",
+                      }}
+                    >
+                      {selectedBooking.razorpayOrderId}
+                    </strong>
+
+                  </div>
+
+                )}
+
               </div>
+
 
               {/* SPECIAL REQUEST */}
 
@@ -1091,6 +1404,7 @@ function AdminDashboard() {
                 </p>
 
               </div>
+
 
               {/* TOTAL */}
 
@@ -1111,6 +1425,7 @@ function AdminDashboard() {
               </div>
 
             </div>
+
 
             {/* FOOTER */}
 
